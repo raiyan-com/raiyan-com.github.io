@@ -19,28 +19,32 @@
 				"description": "Describe this project in a sentence or two: what it does and what you built.",
 				"image": "images/fulls/01.jpg",
 				"link": "",
-				"linkLabel": ""
+				"linkLabel": "",
+				"media": []
 			},
 			{
 				"title": "Project title",
 				"description": "Describe this project in a sentence or two.",
 				"image": "images/fulls/02.jpg",
 				"link": "",
-				"linkLabel": ""
+				"linkLabel": "",
+				"media": []
 			},
 			{
 				"title": "Project title",
 				"description": "Describe this project in a sentence or two.",
 				"image": "images/fulls/03.jpg",
 				"link": "",
-				"linkLabel": ""
+				"linkLabel": "",
+				"media": []
 			},
 			{
 				"title": "Project title",
 				"description": "Describe this project in a sentence or two.",
 				"image": "images/fulls/04.jpg",
 				"link": "",
-				"linkLabel": ""
+				"linkLabel": "",
+				"media": []
 			}
 		]
 	},
@@ -52,7 +56,13 @@
 		"location": ""
 	},
 	"social": [
-		{ "platform": "github", "url": "" },
-		{ "platform": "linkedin", "url": "" }
+		{
+			"platform": "github",
+			"url": "https://github.com/raiyan-com"
+		},
+		{
+			"platform": "linkedin",
+			"url": ""
+		}
 	]
 }
