@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="robots" content="noindex, nofollow" />
+	<title>Portfolio Admin</title>
+	<link rel="stylesheet" href="admin.css" />
+</head>
+<body data-view="edit">
+
+	<header class="topbar">
+		<strong class="brand">Portfolio Admin</strong>
+		<span id="status" class="status" data-state="off">Loading…</span>
+		<div class="spacer"></div>
+		<div class="seg tabs" aria-label="Show">
+			<button type="button" data-view="edit" class="active">Edit</button>
+			<button type="button" data-view="preview">Preview</button>
+		</div>
+		<a class="btn" href="../" target="_blank" rel="noopener">View site</a>
+		<button type="button" id="connect" class="btn">Connect GitHub</button>
+		<button type="button" id="save" class="btn primary" disabled>Save</button>
+	</header>
+
+	<main class="layout">
+		<div id="editor" class="editor"></div>
+		<section class="preview">
+			<div class="preview-bar">
+				<span>Live preview of your changes</span>
+				<div class="seg" aria-label="Preview size">
+					<button type="button" data-device="desktop" class="active">Desktop</button>
+					<button type="button" data-device="phone">Phone</button>
+				</div>
+			</div>
+			<div id="stage" class="stage">
+				<iframe id="frame" src="../index.html?preview" title="Preview"></iframe>
+			</div>
+		</section>
+	</main>
+
+	<dialog id="settings">
+		<form id="settings-form">
+			<h2>Connect to GitHub</h2>
+			<p>Save writes your changes to the GitHub repository that hosts your site. The live site updates about a minute later.</p>
+
+			<label class="field">
+				<span class="label">GitHub username</span>
+				<input name="owner" required autocomplete="off" spellcheck="false" />
+			</label>
+			<label class="field">
+				<span class="label">Repository</span>
+				<input name="repo" required autocomplete="off" spellcheck="false" />
+				<small class="hint">Usually <code>yourusername.github.io</code></small>
+			</label>
+			<label class="field">
+				<span class="label">Branch</span>
+				<input name="branch" required autocomplete="off" spellcheck="false" />
+			</label>
+			<label class="field">
+				<span class="label">Access key</span>
+				<input name="token" type="password" required autocomplete="off" spellcheck="false" />
+			</label>
+
+			<details class="help">
+				<summary>How do I get an access key?</summary>
+				<ol>
+					<li>Open <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub's new access token page</a>.</li>
+					<li>Name it <b>Portfolio admin</b> and pick an expiration. When it runs out, make a new one and paste it here.</li>
+					<li>Under <b>Repository access</b>, choose <b>Only select repositories</b> and pick your site's repository.</li>
+					<li>Under <b>Permissions</b>, add <b>Contents</b> and set it to <b>Read and write</b>.</li>
+					<li>Click <b>Generate token</b>, copy it, and paste it above.</li>
+				</ol>
+			</details>
+
+			<p class="note">The key is kept only in this browser. Don't share it with anyone.</p>
+			<p id="settings-error" class="error" hidden></p>
+
+			<div class="dialog-actions">
+				<button type="button" id="disconnect" class="btn danger">Disconnect</button>
+				<div class="spacer"></div>
+				<button type="button" id="settings-cancel" class="btn">Cancel</button>
+				<button type="submit" id="settings-submit" class="btn primary">Connect</button>
+			</div>
+		</form>
+	</dialog>
+
+	<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+	<script src="admin.js"></script>
+
+</body>
+</html>
