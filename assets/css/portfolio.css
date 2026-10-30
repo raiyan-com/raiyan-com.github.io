@@ -1,0 +1,106 @@
+/*
+	Additions on top of the Strata template (main.css is left as shipped).
+*/
+
+/* Header */
+
+	/* Tagline on its own line under the name, at every screen size. */
+	#header h1 .tagline {
+		display: block;
+	}
+
+	/* Any photo shows as a clean circle, whatever its shape. */
+	#header .image.avatar img {
+		aspect-ratio: 1 / 1;
+		object-fit: cover;
+	}
+
+	/* The background always fills the header, whatever its shape. */
+	#header {
+		background-size: auto, cover;
+		background-position: top left, center center;
+	}
+
+/* Main */
+
+	/* No divider above the first section that is showing. */
+	#main > section.is-first {
+		border-top: 0;
+		margin-top: 0;
+		padding-top: 0;
+	}
+
+/* Project cards */
+
+	.work-item .image.thumb img {
+		aspect-ratio: 16 / 9;
+		object-fit: cover;
+	}
+
+	.work-item .actions {
+		margin: 1.25em 0 0 0;
+	}
+
+/* Project page */
+
+	#project .back {
+		border-bottom: 0;
+		display: inline-block;
+		font-size: 0.9em;
+		margin: 0 0 2em 0;
+	}
+
+	#project .cover img {
+		max-height: 32em;
+		object-fit: cover;
+	}
+
+	#project .gallery {
+		margin: 1em 0 1em 0;
+	}
+
+	.media .image.fit {
+		margin: 0;
+	}
+
+	.media-photo .image img {
+		aspect-ratio: 4 / 3;
+		object-fit: cover;
+	}
+
+	.media .caption {
+		font-size: 0.8em;
+		line-height: 1.5em;
+		margin: 0.75em 0 0 0;
+	}
+
+	.media-video .embed {
+		aspect-ratio: 16 / 9;
+		background: #000;
+		border-radius: 0.35em;
+		overflow: hidden;
+		position: relative;
+	}
+
+	.media-video .embed iframe {
+		border: 0;
+		height: 100%;
+		left: 0;
+		position: absolute;
+		top: 0;
+		width: 100%;
+	}
+
+	.media-video video {
+		background: #000;
+		border-radius: 0.35em;
+		display: block;
+		max-height: 70vh;
+		width: 100%;
+	}
+
+	#project .pager {
+		border-top: solid 2px #efefef;
+		margin-top: 3em;
+		padding-top: 3em;
+	}

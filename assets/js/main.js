@@ -13,8 +13,8 @@
 		$main = $('#main'),
 		settings = {
 
-			// Parallax background effect?
-				parallax: true,
+			// Parallax background effect? (Off so any uploaded background fills the header.)
+				parallax: false,
 
 			// Parallax factor (lower = more intense, higher = less intense).
 				parallaxFactor: 20

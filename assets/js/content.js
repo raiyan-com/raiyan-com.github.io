@@ -1,11 +1,13 @@
 /*
 	Fills the page from content.json.
+	The home page lists the projects; index.html?p=<project> shows one project on its own.
 	With ?preview in the URL it shows draft content sent by the admin page instead.
 */
 
 (function($) {
 
-	var preview = /[?&]preview\b/.test(window.location.search),
+	var params = new URLSearchParams(window.location.search),
+		preview = params.has('preview'),
 		overlay = 'assets/css/images/overlay.png',
 		platforms = {
 			github:    { icon: 'brands fa-github',      label: 'GitHub' },
@@ -17,8 +19,9 @@
 			resume:    { icon: 'solid fa-file-alt',     label: 'Resume' },
 			website:   { icon: 'solid fa-globe',        label: 'Website' }
 		},
+		content = {},
 		uploads = {},
-		galleryReady = false;
+		previewProject = null;
 
 	// Helpers.
 
@@ -55,7 +58,7 @@
 			// "linkedin.com/in/me" -> "https://linkedin.com/in/me", but leave "files/resume.pdf" alone.
 			if (!/^[a-z][a-z0-9+.-]*:/i.test(link)
 			&&	/^[a-z0-9-]+(\.[a-z0-9-]+)+(\/|$)/i.test(link)
-			&&	!/^[^\/]+\.(pdf|jpe?g|png|gif|webp|svg|html?|json|txt|docx?)$/i.test(link))
+			&&	!/^[^\/]+\.(pdf|jpe?g|png|gif|webp|svg|html?|json|txt|docx?|mp4|webm|mov)$/i.test(link))
 				return 'https://' + link;
 
 			return asset(link);
@@ -77,17 +80,76 @@
 			}) + '")';
 		}
 
+		// Address name for each project, from its title ("Exo Skeleton" -> "exo-skeleton").
+		function projectSlugs(items) {
+			var used = {};
+
+			return items.map(function(item) {
+				var base = String(item.title || '').toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '')
+						.replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'project',
+					name = base,
+					n = 2;
+
+				while (used[name])
+					name = base + '-' + n++;
+
+				used[name] = true;
+				return name;
+			});
+		}
+
+		// Links to a project or back home. The admin preview follows them without leaving the page.
+		function projectLink(slugs, index) {
+			return ' href="?p=' + encodeURIComponent(slugs[index]) + '" data-project="' + index + '"';
+		}
+
+		function videoEmbed(src) {
+			var m;
+
+			if ((m = src.match(/(?:youtube\.com\/(?:watch\?(?:[^#]*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([\w-]{11})/i)))
+				return embed('https://www.youtube-nocookie.com/embed/' + m[1]);
+
+			if ((m = src.match(/vimeo\.com\/(?:video\/)?(\d+)/i)))
+				return embed('https://player.vimeo.com/video/' + m[1]);
+
+			if ((m = src.match(/drive\.google\.com\/file\/d\/([\w-]+)/i)))
+				return embed('https://drive.google.com/file/d/' + m[1] + '/preview');
+
+			return '<video src="' + esc(href(src)) + '" controls playsinline preload="metadata"></video>';
+		}
+
+		function embed(url) {
+			return '<div class="embed"><iframe src="' + esc(url) + '" title="Video" loading="lazy" '
+				+ 'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" '
+				+ 'allowfullscreen></iframe></div>';
+		}
+
+		function mediaItem(m) {
+			var caption = m.caption ? '<p class="caption">' + esc(m.caption) + '</p>' : '',
+				src;
+
+			if (!m.src)
+				return '';
+
+			if (m.type === 'video')
+				return '<div class="col-12 media media-video">' + videoEmbed(m.src) + caption + '</div>';
+
+			src = esc(asset(m.src));
+
+			return '<div class="col-4 col-6-small media media-photo">'
+				+ '<a href="' + src + '" class="image fit thumb"><img src="' + src + '" alt="' + esc(m.caption) + '" loading="lazy" /></a>'
+				+ caption + '</div>';
+		}
+
 	// Render.
 
-		function render(c) {
-			var header = c.header || {},
-				about = c.about || {},
-				projects = c.projects || {},
-				contact = c.contact || {},
-				details = [],
-				background = header.background ? cssUrl(asset(header.background)) : 'none';
-
-			document.title = header.name || 'Portfolio';
+		function render() {
+			var c = content,
+				header = c.header || {},
+				items = (c.projects && c.projects.items) || [],
+				slugs = projectSlugs(items),
+				background = header.background ? cssUrl(asset(header.background)) : 'none',
+				index;
 
 			// Header.
 				$('#portfolio-theme').text(
@@ -96,9 +158,46 @@
 				);
 
 				$('#header > .inner').html(
-					(header.avatar ? '<span class="image avatar"><img src="' + esc(asset(header.avatar)) + '" alt="" /></span>' : '') +
-					'<h1><strong>' + esc(header.name) + '</strong>' + (header.tagline ? '<br /> ' + esc(header.tagline) : '') + '</h1>'
+					(header.avatar ? '<span class="image avatar"><img src="' + esc(asset(header.avatar)) + '" alt="' + esc(header.name) + '" /></span>' : '') +
+					'<h1><strong>' + esc(header.name) + '</strong>' + (header.tagline ? '<span class="tagline">' + esc(header.tagline) + '</span>' : '') + '</h1>'
 				);
+
+				$('#favicon').attr('href', header.avatar ? asset(header.avatar) : 'images/avatar.jpg');
+
+			// Footer.
+				$('#social').html((c.social || []).filter(function(s) { return s.url; }).map(function(s) {
+					var p = platforms[s.platform] || platforms.website;
+					return '<li>' + link(s.url, '<span class="label">' + p.label + '</span>', 'icon ' + p.icon) + '</li>';
+				}).join(''));
+
+				$('#copyright').html('&copy; ' + esc(header.name));
+
+			// Main.
+				if (preview)
+					index = previewProject != null && previewProject < items.length ? previewProject : null;
+				else
+					index = params.has('p') ? slugs.indexOf(params.get('p')) : null;
+
+				if (index == null)
+					renderHome(c, items, slugs);
+				else
+					renderProject(c, items, slugs, index);
+
+				$('#main > section').removeClass('is-first')
+					.filter(function() { return $(this).css('display') !== 'none'; })
+					.first().addClass('is-first');
+
+		}
+
+		function renderHome(c, items, slugs) {
+			var header = c.header || {},
+				about = c.about || {},
+				projects = c.projects || {},
+				contact = c.contact || {},
+				details = [];
+
+			document.title = header.name || 'Portfolio';
+			$('#project').hide().empty();
 
 			// About.
 				$('#one').html(
@@ -113,18 +212,18 @@
 				$('#two').html(
 					(projects.heading ? '<h2>' + esc(projects.heading) + '</h2>' : '') +
 					'<div class="row">' +
-					(projects.items || []).map(function(item) {
-						var image = esc(asset(item.image));
+					items.map(function(item, i) {
+						var to = projectLink(slugs, i);
 
 						return '<article class="col-6 col-12-xsmall work-item">' +
-							(item.image ? '<a href="' + image + '" class="image fit thumb"><img src="' + image + '" alt="" /></a>' : '') +
+							(item.image ? '<a' + to + ' class="image fit thumb"><img src="' + esc(asset(item.image)) + '" alt="' + esc(item.title) + '" loading="lazy" /></a>' : '') +
 							'<h3>' + esc(item.title) + '</h3>' +
 							paragraphs(item.description) +
-							(item.link ? '<p>' + link(item.link, esc(item.linkLabel || 'View project')) + '</p>' : '') +
+							'<ul class="actions"><li><a' + to + ' class="button small">View project</a></li></ul>' +
 							'</article>';
 					}).join('') +
 					'</div>'
-				).toggle(!!(projects.items && projects.items.length));
+				).toggle(items.length > 0);
 
 			// Contact.
 				if (contact.email)
@@ -146,39 +245,54 @@
 						: '')
 				).toggle(!!(contact.heading || contact.text || details.length));
 
-			// Footer.
-				$('#social').html((c.social || []).filter(function(s) { return s.url; }).map(function(s) {
-					var p = platforms[s.platform] || platforms.website;
-					return '<li>' + link(s.url, '<span class="label">' + p.label + '</span>', 'icon ' + p.icon) + '</li>';
-				}).join(''));
-
-				$('#copyright').html('&copy; ' + esc(header.name));
-
 		}
 
-	// Lightbox gallery.
+		function renderProject(c, items, slugs, index) {
+			var header = c.header || {},
+				item = items[index],
+				next = items.length > 1 ? (index + 1) % items.length : -1,
+				back = '<a href="./" class="back" data-home>&larr; All projects</a>';
+
+			$('#one, #two, #three').hide();
+
+			if (!item) {
+				document.title = 'Project not found · ' + (header.name || 'Portfolio');
+				$('#project').html(back + '<h2>Project not found</h2><p>This project may have been renamed or removed.</p>').show();
+				return;
+			}
+
+			document.title = (item.title || 'Project') + ' · ' + (header.name || 'Portfolio');
+
+			$('#project').html(
+				back +
+				'<header class="major"><h2>' + esc(item.title) + '</h2></header>' +
+				(item.image ? '<span class="image fit cover"><img src="' + esc(asset(item.image)) + '" alt="" /></span>' : '') +
+				paragraphs(item.details || item.description) +
+				(item.link ? '<ul class="actions"><li>' + link(item.link, esc(item.linkLabel || 'Visit project'), 'button primary') + '</li></ul>' : '') +
+				((item.media || []).length ? '<div class="gallery"><div class="row gtr-50 gtr-uniform">' + item.media.map(mediaItem).join('') + '</div></div>' : '') +
+				'<ul class="actions pager">' +
+					'<li><a href="./" class="button" data-home>&larr; All projects</a></li>' +
+					(next >= 0 ? '<li><a' + projectLink(slugs, next) + ' class="button">Next: ' + esc(items[next].title) + ' &rarr;</a></li>' : '') +
+				'</ul>'
+			).show();
+		}
+
+	// Lightbox for a project's photos.
 
 		function initGallery() {
-
-			if (galleryReady)
-				return;
-
-			galleryReady = true;
-
-			$('#two').poptrox({
-				caption: function($a) { return $a.next('h3').text(); },
+			$('#project').poptrox({
+				caption: function($a) { return $a.next('.caption').text(); },
 				overlayColor: '#2c2c2c',
 				overlayOpacity: 0.85,
 				popupCloserText: '',
 				popupLoaderText: '',
-				selector: '.work-item a.image',
+				selector: '.media-photo a.image',
 				usePopupCaption: true,
 				usePopupDefaultStyling: false,
 				usePopupEasyClose: false,
 				usePopupNav: true,
 				windowMargin: (breakpoints.active('<=small') ? 0 : 50)
 			});
-
 		}
 
 	// Load.
@@ -186,20 +300,39 @@
 		if (preview) {
 
 			window.addEventListener('message', function(event) {
+				var moved;
 
 				if (event.origin !== window.location.origin
 				||	!event.data
 				||	event.data.type !== 'portfolio:preview')
 					return;
 
+				content = event.data.content || {};
 				uploads = event.data.uploads || {};
-				render(event.data.content);
 
+				if ('project' in event.data) {
+					moved = previewProject !== event.data.project;
+					previewProject = event.data.project;
+				}
+
+				render();
+
+				if (moved)
+					window.scrollTo(0, 0);
 			});
 
-			// Links would navigate the preview away from the page being edited.
+			// Project and back links switch the preview; other links would leave the page being edited.
 				$(document).on('click', 'a', function(event) {
+					var $a = $(this);
+
 					event.preventDefault();
+
+					if (!$a.is('[data-project], [data-home]'))
+						return;
+
+					previewProject = $a.is('[data-project]') ? parseInt($a.attr('data-project'), 10) : null;
+					render();
+					window.scrollTo(0, 0);
 				});
 
 			window.parent.postMessage({ type: 'portfolio:ready' }, window.location.origin);
@@ -214,9 +347,12 @@
 
 					return response.json();
 				})
-				.then(function(content) {
-					render(content);
-					initGallery();
+				.then(function(data) {
+					content = data;
+					render();
+
+					if (params.has('p'))
+						initGallery();
 				})
 				.catch(function() {
 					$('#one').html('<p>The page content could not be loaded. If you opened this file straight from your computer, open it through a web server instead (it works on GitHub Pages).</p>');

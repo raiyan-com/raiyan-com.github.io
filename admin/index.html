@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<meta name="robots" content="noindex, nofollow" />
 	<title>Portfolio Admin</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.css" integrity="sha384-6LFfkTKLRlzFtgx8xsWyBdKGpcMMQTkv+dB7rAbugeJAu1Ym2q1Aji1cjHBG12Xh" crossorigin="anonymous" />
 	<link rel="stylesheet" href="admin.css" />
 </head>
 <body data-view="edit">
@@ -27,6 +28,8 @@
 		<section class="preview">
 			<div class="preview-bar">
 				<span>Live preview of your changes</span>
+				<div class="spacer"></div>
+				<button type="button" id="preview-home" class="btn small">Home page</button>
 				<div class="seg" aria-label="Preview size">
 					<button type="button" data-device="desktop" class="active">Desktop</button>
 					<button type="button" data-device="phone">Phone</button>
@@ -84,8 +87,30 @@
 		</form>
 	</dialog>
 
+	<dialog id="crop" class="crop-dialog">
+		<div class="crop-head">
+			<h2>Crop image</h2>
+			<div id="crop-aspects" class="seg" aria-label="Shape"></div>
+		</div>
+		<div id="crop-area" class="crop-area"></div>
+		<div class="crop-tools">
+			<button type="button" class="btn small" data-crop="zoom-out" title="Zoom out">−</button>
+			<button type="button" class="btn small" data-crop="zoom-in" title="Zoom in">+</button>
+			<button type="button" class="btn small" data-crop="rotate-left">Rotate left</button>
+			<button type="button" class="btn small" data-crop="rotate-right">Rotate right</button>
+			<button type="button" class="btn small" data-crop="reset">Reset</button>
+		</div>
+		<p class="hint">Drag the photo to move it, scroll or pinch to zoom, and drag the corners of the box to resize it.</p>
+		<div class="dialog-actions">
+			<div class="spacer"></div>
+			<button type="button" id="crop-cancel" class="btn">Cancel</button>
+			<button type="button" id="crop-done" class="btn primary">Use image</button>
+		</div>
+	</dialog>
+
 	<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js" integrity="sha384-jrOgQzBlDeUNdmQn3rUt/PZD+pdcRBdWd/HWRqRo+n2OR2QtGyjSaJC0GiCeH+ir" crossorigin="anonymous"></script>
 	<script src="admin.js"></script>
 
 </body>

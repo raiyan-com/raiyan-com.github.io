@@ -222,6 +222,8 @@ input:focus, textarea:focus, select:focus {
 
 .thumb img { width: 100%; height: 100%; object-fit: cover; }
 .thumb .empty { color: var(--muted); font-size: 12px; }
+.thumb.round { width: 64px; height: 64px; border-radius: 50%; }
+.thumb.wide { width: 96px; height: 54px; }
 
 /* Repeating items (projects, links) */
 
@@ -253,7 +255,45 @@ input:focus, textarea:focus, select:focus {
 
 .item-actions { display: flex; gap: 2px; }
 
-.list > .btn { align-self: flex-start; }
+.item-thumb {
+	flex-shrink: 0;
+	width: 36px;
+	height: 24px;
+	border-radius: 4px;
+	object-fit: cover;
+}
+
+.list-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* Crop dialog */
+
+.crop-dialog { width: min(760px, calc(100vw - 32px)); }
+
+.crop-head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	margin-bottom: 12px;
+}
+
+.crop-head h2 { margin: 0; }
+
+.crop-area {
+	height: min(60vh, 480px);
+	overflow: hidden;
+	border-radius: 10px;
+	background: #111111;
+}
+
+.crop-area img { display: block; max-width: 100%; }
+
+.crop-tools { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.crop-dialog .hint { margin: 8px 0 0; }
+
+.crop-dialog.round .cropper-view-box,
+.crop-dialog.round .cropper-face { border-radius: 50%; }
 
 /* Preview */
 
