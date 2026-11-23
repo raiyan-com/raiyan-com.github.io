@@ -15,13 +15,30 @@
 		object-fit: cover;
 	}
 
-	/* The background always fills the header, whatever its shape. */
-	#header {
-		background-size: auto, cover;
-		background-position: top left, center center;
+	/* The background always fills the header, whatever its shape, under a dark shade. */
+	#header,
+	body.is-touch #header {
+		background-position: top left, top left, center center;
+		background-repeat: repeat, no-repeat, no-repeat;
+		background-size: auto, auto, cover;
+	}
+
+	@media screen and (max-width: 980px) {
+
+		#footer {
+			background-position: top left, top left, bottom center;
+			background-repeat: repeat, no-repeat, no-repeat;
+			background-size: auto, auto, cover;
+		}
+
 	}
 
 /* Main */
+
+	/* Fills the space beside the header at any window size. */
+	#main {
+		max-width: none;
+	}
 
 	/* No divider above the first section that is showing. */
 	#main > section.is-first {
@@ -32,13 +49,79 @@
 
 /* Project cards */
 
-	.work-item .image.thumb img {
+	.work-item .image.thumb img,
+	.work-item .image.thumb video {
 		aspect-ratio: 16 / 9;
 		object-fit: cover;
 	}
 
+	/* Diagrams and screenshots (PNGs) show whole on their card, on white. */
+	.work-item .image.thumb img[src$=".png"] {
+		background: #fff;
+		object-fit: contain;
+	}
+
+	.work-item .image.thumb video {
+		border-radius: 0.35em;
+		display: block;
+		width: 100%;
+	}
+
 	.work-item .actions {
 		margin: 1.25em 0 0 0;
+	}
+
+/* Education and leadership */
+
+	.resume-group {
+		margin: 0 0 2.5em 0;
+	}
+
+	.resume-group:last-child {
+		margin-bottom: 0;
+	}
+
+	/* Group names read as labels, so they stand apart from the entry titles. */
+	.resume-group h3 {
+		font-size: 0.8em;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+	}
+
+	.resume-item {
+		margin: 0 0 1.25em 0;
+	}
+
+	.resume-item p {
+		margin: 0;
+	}
+
+	/* Date on the right, or under the title when there isn't room. */
+	.resume-title {
+		column-gap: 1em;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+	}
+
+	.resume-title .date {
+		font-size: 0.9em;
+		white-space: nowrap;
+	}
+
+/* Certifications */
+
+	/* Always one line; it scrolls sideways when the screen is too narrow. */
+	.cert-row {
+		display: flex;
+		gap: 1em;
+		overflow-x: auto;
+		padding-bottom: 0.75em;
+	}
+
+	.cert-row .media {
+		flex: 1 0 8em;
+		max-width: 16em;
 	}
 
 /* Project page */
@@ -50,8 +133,13 @@
 		margin: 0 0 2em 0;
 	}
 
+	/* The template lays a dotted texture over every picture; it greys out diagrams and screenshots (PNGs). */
+	.image:has(> img[src$=".png"]):not(:hover):before {
+		display: none;
+	}
+
+	/* Covers are cropped wide in the admin, so they show whole; a diagram never loses its edges. */
 	#project .cover img {
-		max-height: 32em;
 		object-fit: cover;
 	}
 
@@ -97,6 +185,310 @@
 		display: block;
 		max-height: 70vh;
 		width: 100%;
+	}
+
+	.media-video video.tall {
+		height: 70vh;
+		margin: 0 auto;
+		max-width: 100%;
+		width: auto;
+	}
+
+	.media-video video.tall + .caption {
+		text-align: center;
+	}
+
+	/* Two per row, every box the same shape, with tall videos shown whole. */
+	.gallery.grid .media-video video,
+	.gallery.grid .media-photo .image img {
+		aspect-ratio: 16 / 9;
+		background: #000;
+		border-radius: 0.35em;
+		display: block;
+		max-height: none;
+		object-fit: contain;
+		width: 100%;
+	}
+
+	.gallery.grid .media-photo .image img {
+		object-fit: cover;
+		object-position: 50% 10%;
+	}
+
+	/* Videos stay clear until hovered, when they get the same View label as photos. */
+	.gallery.grid .video-link:before {
+		opacity: 0 !important;
+	}
+
+	.gallery.grid .video-link:hover:before {
+		opacity: 1 !important;
+	}
+
+	.video-popup {
+		align-items: center;
+		background: rgba(44, 44, 44, 0.85);
+		bottom: 0;
+		display: flex;
+		justify-content: center;
+		left: 0;
+		position: fixed;
+		right: 0;
+		top: 0;
+		z-index: 20000;
+	}
+
+	.video-popup .poptrox-popup {
+		position: relative;
+	}
+
+	.video-popup video {
+		background: #000;
+		display: block;
+		max-height: calc(100vh - 8em);
+		max-width: calc(100vw - 100px);
+	}
+
+	@media screen and (max-width: 736px) {
+
+		.video-popup video {
+			max-width: 100vw;
+		}
+
+	}
+
+	.gallery.grid .caption strong {
+		font-weight: 600;
+	}
+
+	/* Project story: what you did first, then the main video, then the supporting clips. */
+	#project .eyebrow {
+		color: #49bf9d;
+		font-size: 0.8em;
+		font-weight: 600;
+		letter-spacing: 0.08em;
+		margin: 0 0 0.6em 0;
+		text-transform: uppercase;
+	}
+
+	.showcase-intro {
+		align-items: center;
+		display: grid;
+		gap: 3em;
+		grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+		margin: 2.5em 0 3.5em 0;
+	}
+
+	.showcase-role p {
+		font-size: 1.2em;
+		line-height: 1.65;
+		margin: 0;
+	}
+
+	.showcase-role strong {
+		font-weight: 600;
+	}
+
+	ul.showcase-stats {
+		border-left: solid 3px #49bf9d;
+		list-style: none;
+		margin: 0;
+		padding: 0 0 0 1.5em;
+	}
+
+	ul.showcase-stats li {
+		align-items: baseline;
+		display: flex;
+		gap: 0.75em;
+		padding: 0.35em 0;
+	}
+
+	ul.showcase-stats strong {
+		font-size: 2em;
+		font-weight: 600;
+		line-height: 1.1;
+		min-width: 2.1em;
+	}
+
+	.showcase-intro.single {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.showcase-intro + .actions {
+		margin: -1.5em 0 3.5em 0;
+	}
+
+	.gallery.grid.photo-grid {
+		display: grid;
+		gap: 1.25em;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	.gallery.grid.photo-grid .media-photo .image img {
+		aspect-ratio: 4 / 3;
+		object-fit: cover;
+	}
+
+	.showcase-block {
+		margin: 0 0 3.5em 0;
+	}
+
+	.showcase-block h3 {
+		margin: 0 0 1.25em 0;
+	}
+
+	#project .showcase-block .gallery {
+		margin: 0;
+	}
+
+	.gallery.grid.main {
+		display: grid;
+		gap: 1.25em;
+	}
+
+	.gallery.grid.main .media-video video {
+		object-fit: cover;
+	}
+
+	.gallery.grid.tall {
+		display: grid;
+		gap: 1.25em;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	.gallery.grid.tall .media-video video {
+		aspect-ratio: 9 / 16;
+		object-fit: cover;
+	}
+
+	/* Rows fill up instead of leaving gaps: four tall clips side by side, two photos in two halves. */
+	.gallery.grid.tall.count-4 {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+
+	.gallery.grid.photo-grid.count-2 {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.gallery.grid.photos .media-photo .image img {
+		aspect-ratio: 21 / 9;
+		object-position: 50% 78%;
+	}
+
+	/* A wide banner, so "What I did" is on the first screen. */
+	#project .cover.banner img {
+		aspect-ratio: 5 / 2;
+		max-height: none;
+		object-position: 50% 72%;
+	}
+
+	@media screen and (max-width: 736px) {
+
+		.showcase-intro {
+			gap: 2em;
+			grid-template-columns: minmax(0, 1fr);
+		}
+
+		.showcase-role p {
+			font-size: 1.05em;
+		}
+
+		.gallery.grid.tall {
+			gap: 0.6em;
+		}
+
+		.gallery.grid.tall.count-4 {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		.gallery.grid.photo-grid {
+			gap: 0.6em;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+	}
+
+	/* Flowing project page: a cover that opens full size, a line or two of text, then the media in rows
+	   where every photo and video keeps its own shape (content.js sizes each row to fill the width). */
+	#project .flow-cover {
+		margin: 0 0 2em 0;
+	}
+
+	#project .flow-cover .image {
+		cursor: zoom-in;
+	}
+
+	/* The cover keeps its own shape and always fits on screen whole, so a diagram never loses its edges. */
+	#project .flow-cover .image img {
+		aspect-ratio: auto;
+		height: auto;
+		max-height: 85vh;
+		object-fit: contain;
+		width: 100%;
+	}
+
+	#project .flow-cover .caption {
+		display: none;
+	}
+
+	.flow .caption {
+		margin: 0.5em 0 0 0;
+	}
+
+	#project .project-text p {
+		font-size: 1.1em;
+		line-height: 1.65;
+	}
+
+	.flow {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 14px;
+		justify-content: center;
+		margin: 2.5em 0 1em 0;
+	}
+
+	.flow-item {
+		flex: none;
+		width: 340px;
+	}
+
+	.flow-item .image,
+	.flow-item .image img,
+	.flow-item video,
+	.flow-item .embed {
+		display: block;
+		height: 100%;
+		margin: 0;
+		width: 100%;
+	}
+
+	/* The picture's height until content.js sizes the row. */
+	.flow-item > :first-child {
+		height: 340px;
+	}
+
+	.flow-item img,
+	.flow-item video {
+		background: #000;
+		border-radius: 0.35em;
+		max-height: none;
+		object-fit: cover;
+	}
+
+	.flow .video-link:before {
+		opacity: 0 !important;
+	}
+
+	.flow .video-link:hover:before {
+		opacity: 1 !important;
+	}
+
+	@media screen and (max-width: 736px) {
+
+		.flow {
+			gap: 8px;
+		}
+
 	}
 
 	#project .pager {

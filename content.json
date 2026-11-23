@@ -1,50 +1,436 @@
 {
 	"header": {
 		"name": "Mohammad Raiyan",
-		"tagline": "Studying computer science.",
+		"tagline": "Wearable Robotics | Embedded AI | Human Sensing",
 		"avatar": "images/uploads/1793336317687-467487569_1109526263693543_8422092300348.jpg",
-		"background": "images/bg.jpg"
+		"background": "images/uploads/background.jpg"
 	},
 	"about": {
 		"heading": "About Myself",
-		"text": "Write a few sentences about yourself here: what you study, what you like to build, and what you're looking for next.",
+		"text": "I'm a computer science student at Essex County College working across wearable robotics, embedded AI, and human sensing. I built an untethered situational awareness system for a wearable exoskeleton, running real-time hazard detection on an NVIDIA Jetson Orin Nano, and deployed it in a 6-participant study. As an undergraduate research assistant at NJIT's AnyMotion Lab, I collected synchronized human-motion data from 20 participants.\n\nI work in Python, C++, Java, and Unity, with hands-on experience in motion capture, EMG, IMUs, and eye tracking. Right now I'm developing an eye-tracking VR training simulation of the Leica BLK2GO 3D scanner, which an NJIT professor has adopted for a civil engineering course.",
 		"buttonLabel": "",
 		"buttonLink": ""
 	},
 	"projects": {
-		"heading": "Recent Work",
+		"heading": "Research & Projects",
 		"items": [
 			{
-				"title": "Exo Skeleton",
-				"description": "Describe this project in a sentence or two: what it does and what you built.",
-				"image": "images/fulls/01.jpg",
+				"title": "Leica BLK2GO VR Training Simulation",
+				"description": "An eye-tracking VR simulation of the Leica BLK2GO 3D scanner that bridges classroom and field training, adopted by an NJIT civil engineering course.",
+				"image": "images/uploads/leica-cover.jpg",
+				"details": "An eye-tracking VR simulation of the Leica BLK2GO 3D scanner. Trainees follow the real scanning workflow, from capture to a **.PLY point cloud**.\n\n**Adopted by an NJIT civil engineering course.**",
+				"media": [
+					{
+						"type": "video",
+						"src": "videos/leica-blk2go.mp4",
+						"caption": "",
+						"poster": "images/uploads/leica-poster.jpg"
+					}
+				],
 				"link": "",
 				"linkLabel": "",
-				"media": []
+				"eyebrow": "Independent Research, Oct 2026 – Present"
 			},
 			{
-				"title": "Project title",
-				"description": "Describe this project in a sentence or two.",
-				"image": "images/fulls/02.jpg",
+				"title": "Exoskeleton Situational Awareness System",
+				"description": "A fully untethered safety system for a wearable exoskeleton, with real-time hazard detection, posture tracking, and haptic and audio alerts.",
+				"image": "images/uploads/exoskeleton-diagram.png",
+				"details": "A fully untethered safety system for a wearable exoskeleton: **YOLOv11 hazard detection** and **IMU posture tracking** on a Jetson Orin Nano, with haptic and audio alerts. Deployed in a **6-participant** situational awareness study.",
+				"media": [
+					{
+						"type": "video",
+						"src": "videos/exo-study.mp4",
+						"caption": "",
+						"preview": "videos/loops/exo-study.mp4",
+						"ratio": "9:16"
+					},
+					{
+						"type": "video",
+						"src": "videos/exo-live.mp4",
+						"caption": "",
+						"preview": "videos/loops/exo-live.mp4",
+						"ratio": "9:16"
+					},
+					{
+						"type": "video",
+						"src": "videos/exo-signs.mp4",
+						"caption": "",
+						"preview": "videos/loops/exo-signs.mp4",
+						"ratio": "9:16"
+					},
+					{
+						"type": "image",
+						"src": "images/uploads/exo-bench.jpg",
+						"caption": "",
+						"ratio": "4:3"
+					},
+					{
+						"type": "image",
+						"src": "images/uploads/exo-hardware.jpg",
+						"caption": "",
+						"ratio": "3:4"
+					},
+					{
+						"type": "image",
+						"src": "images/uploads/exo-slip.jpg",
+						"caption": "",
+						"ratio": "3:4"
+					},
+					{
+						"type": "image",
+						"src": "images/uploads/exo-stand.jpg",
+						"caption": "",
+						"ratio": "3:4"
+					},
+					{
+						"type": "image",
+						"src": "images/uploads/exo-setup.jpg",
+						"caption": "",
+						"ratio": "4:3"
+					}
+				],
 				"link": "",
 				"linkLabel": "",
-				"media": []
+				"layout": "flow",
+				"eyebrow": "Independent Research, Jul 2026 – Oct 2026"
 			},
 			{
-				"title": "Project title",
-				"description": "Describe this project in a sentence or two.",
-				"image": "images/fulls/03.jpg",
+				"title": "AnyMotion Lab, NJIT",
+				"description": "Undergraduate research assistant collecting synchronized human-motion data with EMG sensors, IMUs, pressure insoles, and motion capture.",
+				"image": "images/uploads/anymotion-cover.jpg",
+				"details": "Instrumented participants with **6 EMG sensors, 10 IMUs, 2 pressure insoles and 28 motion-capture markers**, collected synchronized motion data from **20 participants**, and processed the captures for analysis.",
+				"media": [
+					{
+						"type": "video",
+						"src": "videos/anymotion-lifting.mp4",
+						"caption": "",
+						"preview": "videos/loops/anymotion-lifting.mp4",
+						"ratio": "9:16"
+					},
+					{
+						"type": "video",
+						"src": "videos/anymotion-lab.mp4",
+						"caption": "",
+						"preview": "videos/loops/anymotion-lab.mp4",
+						"ratio": "1:1"
+					},
+					{
+						"type": "image",
+						"src": "images/uploads/anymotion-participant-1.jpg",
+						"caption": "",
+						"ratio": "3:4"
+					},
+					{
+						"type": "image",
+						"src": "images/uploads/anymotion-participant-2.jpg",
+						"caption": "",
+						"ratio": "3:4"
+					},
+					{
+						"type": "video",
+						"src": "videos/anymotion-motive.mp4",
+						"caption": "",
+						"preview": "videos/loops/anymotion-motive.mp4",
+						"ratio": "9:16"
+					},
+					{
+						"type": "image",
+						"src": "images/uploads/anymotion-motive-screen.jpg",
+						"caption": "",
+						"ratio": "3:4"
+					},
+					{
+						"type": "image",
+						"src": "images/uploads/anymotion-motive-close.jpg",
+						"caption": "",
+						"ratio": "3:4"
+					}
+				],
 				"link": "",
 				"linkLabel": "",
-				"media": []
+				"layout": "flow",
+				"eyebrow": "Undergraduate Research Assistant, Summer 2026"
 			},
 			{
-				"title": "Project title",
-				"description": "Describe this project in a sentence or two.",
-				"image": "images/fulls/04.jpg",
+				"title": "STEM Success Academy, NJIT",
+				"description": "Intensive engineering program on the Electrical and Computer Engineering track. Won 1st place in a cantilever design competition.",
+				"image": "images/uploads/stem-cover.jpg",
+				"details": "Coursework in circuits, op-amps, logic, signals, microcontrollers, SolidWorks and robot kinematics. Built an illuminated lab sign at the NJIT Makerspace.\n\n**1st place in the cantilever design competition.**",
+				"media": [],
 				"link": "",
 				"linkLabel": "",
-				"media": []
+				"eyebrow": "Newark College of Engineering, ECE Track, Summer 2026"
+			},
+			{
+				"title": "Zero-G Laser Tag",
+				"description": "A two-player networked VR game built in Unity for Meta Quest and tested with 12 students.",
+				"image": "images/uploads/zero-g-cover.jpg",
+				"details": "I **developed a two-player networked VR game** in Unity for Meta Quest and **deployed it in the Physics Club** for real-user testing with **12 students**.",
+				"media": [
+					{
+						"type": "video",
+						"src": "videos/zero-g-class.mp4",
+						"caption": "",
+						"preview": "videos/loops/zero-g-class.mp4"
+					},
+					{
+						"type": "video",
+						"src": "videos/zero-g-match.mp4",
+						"caption": "Two players in a networked match",
+						"preview": "videos/loops/zero-g-match.mp4"
+					}
+				],
+				"link": "",
+				"linkLabel": "",
+				"layout": "showcase",
+				"eyebrow": "Unity and Meta Quest"
+			},
+			{
+				"title": "Embedded Arduino Projects (C++)",
+				"description": "A sonar scanner, reflex game, 7-segment alarm clock, and temperature and humidity monitor, programmed in C++.",
+				"image": "images/uploads/cover-arduino.jpg",
+				"coverVideo": "videos/loops/alarm-clock.mp4",
+				"details": "",
+				"media": [
+					{
+						"type": "video",
+						"src": "videos/sonar-scanner.mp4",
+						"caption": "Sonar Scanner",
+						"preview": "videos/loops/sonar-scanner.mp4"
+					},
+					{
+						"type": "image",
+						"src": "images/uploads/temperature-monitor.jpg",
+						"caption": "Temperature and humidity monitor"
+					},
+					{
+						"type": "video",
+						"src": "videos/alarm-clock.mp4",
+						"caption": "7-segment alarm clock",
+						"preview": "videos/loops/alarm-clock.mp4"
+					},
+					{
+						"type": "video",
+						"src": "videos/reflex-game.mp4",
+						"caption": "Two-player reflex game",
+						"brightness": "75",
+						"preview": "videos/loops/reflex-game.mp4"
+					}
+				],
+				"link": "",
+				"linkLabel": "",
+				"layout": "grid"
+			},
+			{
+				"title": "Physics Club Robotics",
+				"description": "Autonomous rovers and a robotic arm, designed and programmed in Python for competitive robotics tasks.",
+				"image": "images/uploads/cover-robotics.jpg",
+				"details": "I designed and programmed autonomous **LEGO Spike Prime rovers** and a **robotic arm** in Python for competitive robotics tasks.",
+				"media": [
+					{
+						"type": "video",
+						"src": "videos/rover.mp4",
+						"caption": "Lego Spike Prime rover",
+						"preview": "videos/loops/rover.mp4",
+						"ratio": "9:16"
+					},
+					{
+						"type": "video",
+						"src": "videos/robotic-arm.mp4",
+						"caption": "The rover's robotic arm",
+						"preview": "videos/loops/robotic-arm.mp4",
+						"ratio": "9:16"
+					},
+					{
+						"type": "image",
+						"src": "images/uploads/rover-competition-2.jpg",
+						"caption": "Certificate presentation at the rover competition",
+						"ratio": "3:4"
+					}
+				],
+				"link": "",
+				"linkLabel": "",
+				"layout": "rows",
+				"eyebrow": "Essex County College Physics Club"
+			},
+			{
+				"title": "3v3 Robotic Soccer",
+				"description": "Game design and individual Python laptop controllers for a 3v3 robotic soccer competition, run across 6 laptops with 22 student participants.",
+				"image": "images/uploads/soccer-field.jpg",
+				"details": "I **independently led game design** and **developed individual laptop controllers in Python** for a 3v3 robotic soccer competition.",
+				"media": [
+					{
+						"type": "video",
+						"src": "videos/soccer-match.mp4",
+						"caption": "3v3 robotic soccer match",
+						"preview": "videos/loops/soccer-match.mp4"
+					},
+					{
+						"type": "video",
+						"src": "videos/soccer-laptop-robots.mp4",
+						"caption": "Final testing for my controllers on 6 laptops together",
+						"preview": "videos/loops/soccer-laptop-robots.mp4"
+					},
+					{
+						"type": "video",
+						"src": "videos/soccer-robot-test.mp4",
+						"caption": "Testing a robot from the laptop before deploying",
+						"preview": "videos/loops/soccer-robot-test.mp4"
+					},
+					{
+						"type": "video",
+						"src": "videos/robotic-soccer.mp4",
+						"caption": "Robots on the field",
+						"preview": "videos/loops/robotic-soccer.mp4"
+					},
+					{
+						"type": "video",
+						"src": "videos/soccer-match-corner.mp4",
+						"caption": "",
+						"preview": "videos/loops/soccer-match-corner.mp4"
+					},
+					{
+						"type": "image",
+						"src": "images/uploads/robotic-soccer.jpg",
+						"caption": "Students at the competition"
+					},
+					{
+						"type": "image",
+						"src": "images/uploads/soccer-event-2.jpg",
+						"caption": ""
+					}
+				],
+				"link": "",
+				"linkLabel": "",
+				"layout": "showcase",
+				"eyebrow": "Essex County College Physics Club",
+				"stats": [
+					{
+						"value": "3v3",
+						"label": "Robot matches"
+					},
+					{
+						"value": "6",
+						"label": "Laptops"
+					},
+					{
+						"value": "22",
+						"label": "Student participants"
+					}
+				]
+			},
+			{
+				"title": "Code a Rover: Python for Beginners",
+				"description": "A Python class I taught at the Physics Club for complete beginners, where students coded a LEGO rover and tested their programs in a browser simulator.",
+				"image": "images/uploads/python-class-cover.jpg",
+				"layout": "showcase",
+				"eyebrow": "Essex County College Physics Club",
+				"details": "I **taught Python to complete beginners** by having them **code a LEGO rover**: commands, variables, maths and loops, each tested in a **browser simulator** before running on the robot.",
+				"stats": [],
+				"media": [
+					{
+						"type": "image",
+						"src": "images/uploads/python-class-1.jpg",
+						"caption": ""
+					},
+					{
+						"type": "image",
+						"src": "images/uploads/python-class-2.jpg",
+						"caption": ""
+					},
+					{
+						"type": "image",
+						"src": "images/uploads/python-class-3.jpg",
+						"caption": ""
+					},
+					{
+						"type": "image",
+						"src": "images/uploads/python-class-4.jpg",
+						"caption": ""
+					},
+					{
+						"type": "image",
+						"src": "images/uploads/python-class-5.jpg",
+						"caption": ""
+					},
+					{
+						"type": "image",
+						"src": "images/uploads/python-class-6.jpg",
+						"caption": ""
+					}
+				],
+				"link": "",
+				"linkLabel": "",
+				"links": [
+					{
+						"label": "Try the rover simulator",
+						"url": "https://raiyan-com.github.io/rover-simulator/simulator.html"
+					},
+					{
+						"label": "View the slides (PDF)",
+						"url": "files/python-class-slides.pdf"
+					}
+				]
+			}
+		]
+	},
+	"resume": {
+		"heading": "Background",
+		"groups": [
+			{
+				"heading": "Education",
+				"items": [
+					{
+						"title": "Essex County College",
+						"date": "Aug 2025 – Present",
+						"text": "Associate of Science in Computer Science\nNewark, NJ"
+					},
+					{
+						"title": "New River Community College",
+						"date": "Jan 2025 – May 2025",
+						"text": "Associate of Science in Computer Science, GPA 4.0, Dean's List\nDublin, VA"
+					}
+				]
+			},
+			{
+				"heading": "Leadership",
+				"items": [
+					{
+						"title": "Treasurer, Physics Club",
+						"date": "Jan 2026 – Present",
+						"text": "Essex County College\nTaught coding to club members and led fundraising for club activities."
+					}
+				]
+			}
+		]
+	},
+	"certifications": {
+		"heading": "Certifications",
+		"items": [
+			{
+				"title": "NJIT STEM Success Academy, Certificate of Completion",
+				"date": "2026",
+				"image": "images/uploads/cert-njit-stem.jpg"
+			},
+			{
+				"title": "Essex County College Robotics Competition",
+				"date": "2026",
+				"image": "images/uploads/cert-ecc-robotics.jpg"
+			},
+			{
+				"title": "New River Community College Dean's List",
+				"date": "2025",
+				"image": "images/uploads/cert-nrcc-deans-list.jpg"
+			},
+			{
+				"title": "Bloomberg Market Concepts",
+				"date": "2025",
+				"image": "images/uploads/cert-bloomberg-market-concepts.jpg"
+			},
+			{
+				"title": "Bloomberg Finance Fundamentals",
+				"date": "2026",
+				"image": "images/uploads/cert-bloomberg-finance-fundamentals.jpg"
 			}
 		]
 	},

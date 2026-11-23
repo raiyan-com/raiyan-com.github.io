@@ -35,7 +35,10 @@ const VIDEO_FIELDS = [
 		placeholder: 'https://www.youtube.com/watch?v=…',
 		hint: 'Paste a YouTube, Vimeo or Google Drive link (works best), or upload a short clip under 25 MB.'
 	},
-	{ key: 'caption', label: 'Caption (optional)' }
+	{ key: 'caption', label: 'Caption (optional)' },
+	{ key: 'preview', label: 'Small looping copy (optional)', type: 'link', accept: 'video/*', hint: 'A smaller version that plays in the box so the page stays smooth. The pop-up still plays the full video.' },
+	{ key: 'brightness', label: 'Brightness (optional)', placeholder: '100', hint: 'For uploaded clips. Below 100 is darker, for example 75.' },
+	{ key: 'poster', label: 'Still before it plays (optional)', type: 'image', crop: { aspects: ['free', 'tall', 'wide', 'square'] }, thumb: 'wide', maxSize: 1600, hint: 'Shown until the video is played, for clips that start on a black frame.' }
 ];
 
 // What the editor shows. Each section edits content[path], or the top level when there is no path.
@@ -78,13 +81,28 @@ const SCHEMA = [
 					{ key: 'title', label: 'Title' },
 					{ key: 'description', label: 'Short description', type: 'textarea', rows: 3, hint: 'Shown on the project card on your home page.' },
 					{ key: 'image', label: 'Cover image', type: 'image', crop: { aspects: ['wide'] }, thumb: 'wide', maxSize: 1600 },
-					{ key: 'details', label: 'Full write-up', type: 'textarea', rows: 8, hint: 'Shown on the project’s own page. Leave a blank line to start a new paragraph.' },
+					{ key: 'coverVideo', label: 'Cover video (optional)', type: 'link', accept: 'video/*', hint: 'Plays on a loop on the project card instead of the cover image. Use an uploaded clip under 25 MB.' },
+					{ key: 'details', label: 'Full write-up', type: 'textarea', rows: 8, hint: 'Shown on the project’s own page. Leave a blank line to start a new paragraph. In the Project story layout, put **double stars** around words to make them stand out.' },
+					{ key: 'layout', label: 'Project page layout', type: 'select', options: { standard: 'Cover, write-up and gallery', flow: 'Cover, a line or two, then photos and videos in rows that keep their shapes', rows: 'A line or two, then photos and videos in rows that keep their shapes (no cover)',showcase: 'Project story: what I did, main video, then the rest', 'text-grid': 'Cover, write-up, then photos and videos, two per row', grid: 'Only photos and videos, two per row' } },
+					{ key: 'eyebrow', label: 'Small line above the title (optional)', hint: 'For example your role and the dates.' },
+					{
+						key: 'stats',
+						label: 'Key numbers (optional)',
+						type: 'list',
+						itemName: 'number',
+						summary: item => `${item.value || 'New'} ${item.label || ''}`,
+						add: [{ label: '+ Add number', run: () => [{ value: '', label: '' }] }],
+						fields: [
+							{ key: 'value', label: 'Number', placeholder: '22' },
+							{ key: 'label', label: 'What it counts', placeholder: 'Student participants' }
+						]
+					},
 					{
 						key: 'media',
 						label: 'Photos and videos',
 						type: 'list',
 						itemName: 'item',
-						summary: item => `${item.type === 'video' ? 'Video' : 'Photo'}${item.caption ? ` · ${item.caption}` : ''}`,
+						summary: item => `${item.type === 'video' ? 'Video' : 'Photo'}${item.caption ? `: ${item.caption}` : ''}`,
 						thumbnail: item => item.type === 'video' ? '' : item.src,
 						fields: item => item.type === 'video' ? VIDEO_FIELDS : PHOTO_FIELDS,
 						add: [
@@ -93,7 +111,71 @@ const SCHEMA = [
 						]
 					},
 					{ key: 'link', label: 'Link (optional)', type: 'link', hint: 'GitHub repo, live demo, paper…' },
-					{ key: 'linkLabel', label: 'Link button text', placeholder: 'Visit project' }
+					{ key: 'linkLabel', label: 'Link button text', placeholder: 'Visit project' },
+					{
+						key: 'links',
+						label: 'More buttons (optional)',
+						type: 'list',
+						itemName: 'button',
+						summary: item => item.label || item.url || 'New button',
+						add: [{ label: '+ Add button', run: () => [{ label: '', url: '' }] }],
+						fields: [
+							{ key: 'label', label: 'Button text', placeholder: 'View the slides' },
+							{ key: 'url', label: 'Link', type: 'link', hint: 'A web address, or upload a file such as a PDF.' }
+						]
+					}
+				]
+			}
+		]
+	},
+	{
+		title: 'Education and leadership',
+		path: 'resume',
+		hint: 'Groups such as Education or Leadership, shown under your projects.',
+		fields: [
+			{ key: 'heading', label: 'Heading' },
+			{
+				key: 'groups',
+				type: 'list',
+				itemName: 'group',
+				summary: item => item.heading || 'Untitled group',
+				add: [{ label: '+ Add group', run: () => [{ heading: 'New group', items: [] }] }],
+				fields: [
+					{ key: 'heading', label: 'Group name' },
+					{
+						key: 'items',
+						label: 'Entries',
+						type: 'list',
+						itemName: 'entry',
+						summary: item => item.title || 'Untitled entry',
+						add: [{ label: '+ Add entry', run: () => [{ title: 'New entry', date: '', text: '' }] }],
+						fields: [
+							{ key: 'title', label: 'Title' },
+							{ key: 'date', label: 'Date (optional)' },
+							{ key: 'text', label: 'Text (optional)', type: 'textarea', rows: 3 }
+						]
+					}
+				]
+			}
+		]
+	},
+	{
+		title: 'Certifications',
+		path: 'certifications',
+		hint: 'Shown side by side in one line. Add a photo of each certificate.',
+		fields: [
+			{ key: 'heading', label: 'Heading' },
+			{
+				key: 'items',
+				type: 'list',
+				itemName: 'certificate',
+				summary: item => item.title || 'Untitled certificate',
+				thumbnail: item => item.image,
+				add: [{ label: '+ Add certificate', run: () => [{ title: 'New certificate', date: '', image: '' }] }],
+				fields: [
+					{ key: 'image', label: 'Photo', type: 'image', crop: { aspects: ['photo', 'free', 'square', 'wide'] }, thumb: 'wide', maxSize: 2000 },
+					{ key: 'title', label: 'Name' },
+					{ key: 'date', label: 'Year (optional)' }
 				]
 			}
 		]
@@ -117,7 +199,7 @@ const SCHEMA = [
 				key: 'social',
 				type: 'list',
 				itemName: 'link',
-				summary: item => `${PLATFORMS[item.platform] || 'Link'}${item.url ? ` · ${item.url}` : ' (no address yet)'}`,
+				summary: item => `${PLATFORMS[item.platform] || 'Link'}${item.url ? `: ${item.url}` : ' (no address yet)'}`,
 				add: [{ label: '+ Add link', run: () => [{ platform: 'github', url: '' }] }],
 				fields: [
 					{ key: 'platform', label: 'Type', type: 'select', options: PLATFORMS },

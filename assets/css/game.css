@@ -1,0 +1,399 @@
+/*
+	Game mode: the switch, the dark theme and the pieces of the game.
+*/
+
+/* Switch */
+
+	@font-face {
+		font-display: swap;
+		font-family: 'Xirod';
+		src: url("../webfonts/Xirod.otf") format("opentype");
+	}
+
+	#game-switch {
+		align-items: center;
+		background: rgba(255, 255, 255, 0.92);
+		border: 0;
+		border-radius: 2em;
+		box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+		color: #15803d;
+		cursor: pointer;
+		display: flex;
+		font-size: 12.5px;
+		font-weight: 600;
+		gap: 0.5em;
+		line-height: 1;
+		padding: 3px 9px 3px 3px;
+		position: fixed;
+		right: 14px;
+		top: 14px;
+		z-index: 1000;
+	}
+
+	#game-switch[aria-checked="true"] .text {
+		font-family: 'Xirod', sans-serif;
+		font-size: 8px;
+		font-weight: 400;
+	}
+
+	#game-switch .track {
+		background: #b8bec8;
+		border-radius: 9px;
+		display: block;
+		height: 18px;
+		position: relative;
+		transition: background-color 0.2s ease, box-shadow 0.2s ease;
+		width: 32px;
+	}
+
+	#game-switch .knob {
+		background: #fff;
+		border-radius: 50%;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+		height: 14px;
+		left: 2px;
+		position: absolute;
+		top: 2px;
+		transition: left 0.2s ease;
+		width: 14px;
+	}
+
+	#game-switch[aria-checked="true"] .track {
+		background: #22c55e;
+		box-shadow: 0 0 12px rgba(34, 197, 94, 0.75);
+	}
+
+	#game-switch[aria-checked="true"] .knob {
+		left: 16px;
+	}
+
+	body.game-on #game-switch {
+		background: rgba(28, 31, 38, 0.92);
+		color: #4ade80;
+	}
+
+/* Dark theme */
+
+	body.game-on {
+		background: #14161b;
+	}
+
+	body.game-on #main {
+		color: #a7adb8;
+	}
+
+	body.game-on #main h2,
+	body.game-on #main h3,
+	body.game-on #main strong {
+		color: #eef1f5;
+	}
+
+	body.game-on #main .button {
+		border-color: #3a3f49;
+		color: #eef1f5 !important;
+	}
+
+	body.game-on #main .button:hover {
+		border-color: #49bf9d;
+		color: #49bf9d !important;
+	}
+
+	body.game-on #main > section,
+	body.game-on #project .pager {
+		border-top-color: #2a2e36;
+	}
+
+	body.game-on ul.labeled-icons li h3 {
+		color: #6b7280;
+	}
+
+/* Counter and messages */
+
+	#game-hud {
+		display: none;
+		max-width: 15em;
+		pointer-events: none;
+		position: fixed;
+		right: 14px;
+		text-align: right;
+		top: 46px;
+		z-index: 1000;
+	}
+
+	body.game-playing #game-hud {
+		display: block;
+	}
+
+	#game-hud .count {
+		align-items: center;
+		background: rgba(28, 31, 38, 0.92);
+		border-radius: 2em;
+		color: #eef1f5;
+		display: inline-flex;
+		font-size: 15px;
+		font-weight: 600;
+		gap: 0.45em;
+		line-height: 1;
+		padding: 5px 12px;
+	}
+
+	#game-hud .count img {
+		display: block;
+		height: 19px;
+		image-rendering: pixelated;
+		width: 21px;
+	}
+
+	#game-hud .message {
+		background: rgba(28, 31, 38, 0.92);
+		border-radius: 0.6em;
+		color: #d5d9e0;
+		font-size: 13px;
+		line-height: 1.4;
+		margin: 0.5em 0 0 0;
+		padding: 0.5em 0.8em;
+	}
+
+	#game-hud .message:empty {
+		display: none;
+	}
+
+/* Room for the slabs, and sections waiting for their star */
+
+	body.game-playing #main > section {
+		border-top: 0;
+		margin-top: 300px;
+		padding-top: 0;
+		position: relative;
+	}
+
+	body.game-playing #main > section.game-locked > * {
+		pointer-events: none;
+		user-select: none;
+	}
+
+	/* A soft shadow blurs the symbols, because a real blur filter on whole sections made the game stutter. */
+	.game-locked .game-symbols {
+		color: transparent;
+		text-shadow: 0 0 5px rgba(156, 199, 245, 0.75);
+	}
+
+	body.game-playing #main > section img,
+	body.game-playing #main > section video {
+		transition: filter 0.25s ease;
+	}
+
+	body.game-playing #main > section.game-locked img,
+	body.game-playing #main > section.game-locked video {
+		filter: blur(7px);
+	}
+
+	body.game-playing #main > section.game-locked .button,
+	body.game-playing #main > section.game-locked .labeled-icons h3 {
+		filter: blur(3px);
+	}
+
+	body.game-playing #main > section.game-locked:before {
+		background: rgba(28, 31, 38, 0.95);
+		border-radius: 2em;
+		color: #eef1f5;
+		content: '\f023\00a0 Locked';
+		font-family: 'Font Awesome 5 Free', 'Source Sans Pro', sans-serif;
+		font-size: 14px;
+		font-weight: 900;
+		left: 50%;
+		padding: 0.4em 1em;
+		position: absolute;
+		top: 8px;
+		transform: translateX(-50%);
+		z-index: 2;
+	}
+
+/* Words turning from symbols back into text when a section unlocks */
+
+	.game-word {
+		position: relative;
+	}
+
+	.game-real {
+		color: transparent;
+	}
+
+	.game-symbols {
+		color: #9cc7f5;
+		font-family: 'Xirod', sans-serif;
+		font-size: 0.62em;
+		font-weight: 400;
+		left: 0;
+		line-height: 1;
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		white-space: nowrap;
+	}
+
+	/* Fading the colour is far lighter than fading hundreds of separate layers. */
+	.game-word.decode .game-real,
+	.game-word.decode .game-symbols {
+		transition: color 0.5s ease var(--delay, 0s);
+	}
+
+	.game-word.decode .game-real {
+		color: inherit;
+	}
+
+	.game-word.decode .game-symbols {
+		color: transparent;
+	}
+
+/* The slabs, the star and the character */
+
+	#game-layer {
+		left: 0;
+		pointer-events: none;
+		position: absolute;
+		top: 0;
+		z-index: 10;
+	}
+
+	.game-slab {
+		background: #f4f2ee url("../../images/game/marble.png");
+		background-size: 800px 120px;
+		border-radius: 2px;
+		box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), inset 0 -2px 0 rgba(90, 94, 102, 0.35), 0 8px 16px rgba(0, 0, 0, 0.45);
+		overflow: hidden;
+		position: absolute;
+		transition: left 0.45s ease, width 0.45s ease;
+	}
+
+	/* The polished shine. */
+	.game-slab:after {
+		background: linear-gradient(105deg, rgba(255, 255, 255, 0) 32%, rgba(255, 255, 255, 0.35) 38%, rgba(255, 255, 255, 0) 44%);
+		bottom: 0;
+		content: '';
+		left: 0;
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
+
+	.game-star {
+		animation: game-float 1.1s ease-in-out infinite alternate;
+		filter: drop-shadow(0 0 8px rgba(255, 220, 60, 0.75));
+		image-rendering: pixelated;
+		position: absolute;
+	}
+
+	.game-star.got {
+		animation: game-got 0.5s ease-out forwards;
+	}
+
+	.game-arrow {
+		animation: game-float 0.6s ease-in-out infinite alternate;
+		border-left: 14px solid transparent;
+		border-right: 14px solid transparent;
+		border-top: 18px solid #4ade80;
+		filter: drop-shadow(0 0 6px rgba(74, 222, 128, 0.7));
+		height: 0;
+		position: absolute;
+		width: 0;
+	}
+
+	#game-player {
+		height: 60px;
+		left: 0;
+		position: absolute;
+		top: 0;
+		width: 42px;
+		will-change: transform;
+	}
+
+	#game-player .squash {
+		height: 100%;
+		transform-origin: 50% 100%;
+	}
+
+	#game-player .sprite {
+		background: url("../../images/game/character.png") 0 0 / 294px 60px no-repeat;
+		height: 100%;
+		image-rendering: pixelated;
+	}
+
+	@keyframes game-float {
+		from { transform: translateY(-4px); }
+		to { transform: translateY(4px); }
+	}
+
+	@keyframes game-got {
+		to { opacity: 0; transform: translateY(-40px) scale(1.8); }
+	}
+
+/* Touch buttons */
+
+	#game-pad {
+		bottom: 16px;
+		display: none;
+		justify-content: space-between;
+		left: 16px;
+		pointer-events: none;
+		position: fixed;
+		right: 16px;
+		z-index: 1000;
+	}
+
+	@media (hover: none) {
+
+		body.game-playing #game-pad {
+			display: flex;
+		}
+
+	}
+
+	#game-pad .group {
+		display: flex;
+		gap: 12px;
+	}
+
+	#game-pad button {
+		-webkit-touch-callout: none;
+		-webkit-user-select: none;
+		align-items: center;
+		background: rgba(28, 31, 38, 0.85);
+		border: 2px solid rgba(255, 255, 255, 0.28);
+		border-radius: 50%;
+		color: #eef1f5;
+		display: flex;
+		font-size: 15px;
+		font-weight: 600;
+		height: 68px;
+		justify-content: center;
+		padding: 0;
+		pointer-events: auto;
+		touch-action: none;
+		user-select: none;
+		width: 68px;
+	}
+
+	#game-pad .arrow {
+		border-bottom: 11px solid transparent;
+		border-top: 11px solid transparent;
+		height: 0;
+		width: 0;
+	}
+
+	#game-pad .arrow.left {
+		border-right: 16px solid #eef1f5;
+	}
+
+	#game-pad .arrow.right {
+		border-left: 16px solid #eef1f5;
+	}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.game-star,
+	.game-arrow {
+		animation: none;
+	}
+
+}
